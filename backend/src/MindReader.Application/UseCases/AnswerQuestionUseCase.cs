@@ -39,9 +39,7 @@ public class AnswerQuestionUseCase
         }
 
         var answerType = ParseAnswer(request.Answer);
-        var history = BuildHistory(session);
-
-        // The last question asked by AI needs an answer from the user
+        var history = BuildHistory(session, request.CurrentQuestion);
         history.Add(new ConversationMessage("user", FormatAnswer(answerType)));
 
         var claudeResponse = await _claudeService.AskAsync(SystemPrompt, history);
@@ -76,7 +74,7 @@ public class AnswerQuestionUseCase
             isGameOver);
     }
 
-    private static List<ConversationMessage> BuildHistory(Domain.Entities.GameSession session)
+    private static List<ConversationMessage> BuildHistory(Domain.Entities.GameSession session, string currentQuestion)
     {
         var history = new List<ConversationMessage>
         {
@@ -85,12 +83,18 @@ public class AnswerQuestionUseCase
 
         foreach (var qa in session.Questions.OrderBy(q => q.Order))
         {
-            history.Add(new ConversationMessage("assistant", $"{{\"isGuess\": false, \"question\": \"{qa.Question}\"}}"));
+            history.Add(new ConversationMessage("assistant", $"{{\"isGuess\": false, \"question\": \"{EscapeJson(qa.Question)}\"}}"));
             history.Add(new ConversationMessage("user", FormatAnswer(qa.Answer)));
         }
 
+        // The question currently on screen that the user is answering
+        history.Add(new ConversationMessage("assistant", $"{{\"isGuess\": false, \"question\": \"{EscapeJson(currentQuestion)}\"}}"));
+
         return history;
     }
+
+    private static string EscapeJson(string value) =>
+        value.Replace("\\", "\\\\").Replace("\"", "\\\"");
 
     private static string FormatAnswer(AnswerType answer) => answer switch
     {

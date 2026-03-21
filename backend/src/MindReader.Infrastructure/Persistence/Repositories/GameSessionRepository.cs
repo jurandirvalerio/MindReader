@@ -34,19 +34,22 @@ public class GameSessionRepository : IGameSessionRepository
     public async Task UpdateAsync(GameSession session)
     {
         var entity = await _context.GameSessions
-            .Include(s => s.Questions)
             .FirstOrDefaultAsync(s => s.Id == session.SessionId);
 
         if (entity is null) return;
 
         entity.Status = session.Status.ToString();
 
-        var existingIds = entity.Questions.Select(q => q.Id).ToHashSet();
+        var existingIds = await _context.QuestionAnswers
+            .Where(q => q.SessionId == session.SessionId)
+            .Select(q => q.Id)
+            .ToHashSetAsync();
+
         foreach (var qa in session.Questions)
         {
             if (!existingIds.Contains(qa.Id))
             {
-                entity.Questions.Add(new QuestionAnswerEntity
+                await _context.QuestionAnswers.AddAsync(new QuestionAnswerEntity
                 {
                     Id = qa.Id,
                     SessionId = qa.SessionId,

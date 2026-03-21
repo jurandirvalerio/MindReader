@@ -21,11 +21,12 @@ export async function startGame(): Promise<StartGameResponse> {
 export async function answerQuestion(
   sessionId: string,
   answer: string,
+  currentQuestion: string,
 ): Promise<AnswerQuestionResponse> {
   const response = await fetch(`${API_BASE}/answer`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sessionId, answer }),
+    body: JSON.stringify({ sessionId, answer, currentQuestion }),
   });
   return handleResponse<AnswerQuestionResponse>(response);
 }

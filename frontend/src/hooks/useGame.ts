@@ -55,7 +55,7 @@ export function useGame() {
 
       setLoading(true);
       try {
-        const response = await answerQuestion(state.sessionId, ANSWER_MAP[answer]);
+        const response = await answerQuestion(state.sessionId, ANSWER_MAP[answer], state.currentQuestion);
 
         let nextGameState: GameState = 'playing';
         if (response.isGuess) {
@@ -79,7 +79,7 @@ export function useGame() {
         setError(err instanceof Error ? err.message : 'Failed to submit answer');
       }
     },
-    [state.sessionId, state.isLoading],
+    [state.sessionId, state.isLoading, state.currentQuestion],
   );
 
   const handleGuessResult = useCallback((correct: boolean) => {

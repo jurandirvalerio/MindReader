@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MindReader.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    [Migration("20240101000000_InitialCreate")]
     public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
@@ -55,8 +54,11 @@ namespace MindReader.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "QuestionAnswers");
-            migrationBuilder.DropTable(name: "GameSessions");
+            migrationBuilder.DropTable(
+                name: "QuestionAnswers");
+
+            migrationBuilder.DropTable(
+                name: "GameSessions");
         }
     }
 }
