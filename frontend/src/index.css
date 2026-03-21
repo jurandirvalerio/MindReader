@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Lato', sans-serif;
+  }
+
+  body {
+    @apply bg-navy-950 text-white min-h-screen;
+    background: radial-gradient(ellipse at top, #0d1f3c 0%, #050a1a 70%);
+  }
+}
+
+@layer utilities {
+  .text-shadow-gold {
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.4), 0 0 60px rgba(251, 191, 36, 0.1);
+  }
+
+  .glow-gold-intense {
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.6), 0 0 80px rgba(251, 191, 36, 0.2);
+  }
+}
