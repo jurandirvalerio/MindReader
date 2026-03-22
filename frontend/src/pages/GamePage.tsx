@@ -43,9 +43,12 @@ export function GamePage({
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
       {/* Header */}
       <div className="mb-6 text-center">
-        <h1 className="font-cinzel text-2xl md:text-3xl font-black text-amber-400 text-shadow-gold">
+        <button
+          onClick={onRestart}
+          className="font-cinzel text-2xl md:text-3xl font-black text-amber-400 text-shadow-gold hover:text-amber-300 transition-colors duration-200 cursor-pointer"
+        >
           MindReader
-        </h1>
+        </button>
         <p className="font-lato text-xs text-slate-500 uppercase tracking-widest mt-1">
           {t.oracleKnowsAll}
         </p>
