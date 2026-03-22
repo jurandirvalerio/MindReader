@@ -23,4 +23,14 @@ public class QuestionAnswer
         Answer = answer;
         Order = order;
     }
+
+    // Used only by the repository when reconstructing from the database.
+    public QuestionAnswer(Guid id, Guid sessionId, string question, AnswerType answer, int order)
+    {
+        Id = id;
+        SessionId = sessionId;
+        Question = question;
+        Answer = answer;
+        Order = order;
+    }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MindReader.Application.DTOs;
 using MindReader.Application.UseCases;
+using MindReader.Domain.Exceptions;
 
 namespace MindReader.API.Controllers;
 
@@ -20,8 +21,15 @@ public class GameController : ControllerBase
     [HttpPost("start")]
     public async Task<ActionResult<StartGameResponseDto>> StartGame([FromBody] StartGameRequestDto request)
     {
-        var result = await _startGameUseCase.ExecuteAsync(request);
-        return Ok(result);
+        try
+        {
+            var result = await _startGameUseCase.ExecuteAsync(request);
+            return Ok(result);
+        }
+        catch (RateLimitException ex)
+        {
+            return StatusCode(429, ex.Message);
+        }
     }
 
     [HttpPost("answer")]
@@ -30,11 +38,18 @@ public class GameController : ControllerBase
         if (request.SessionId == Guid.Empty || string.IsNullOrWhiteSpace(request.Answer))
             return BadRequest("SessionId and Answer are required.");
 
-        var result = await _answerQuestionUseCase.ExecuteAsync(request);
+        try
+        {
+            var result = await _answerQuestionUseCase.ExecuteAsync(request);
 
-        if (result is null)
-            return NotFound($"Game session {request.SessionId} not found.");
+            if (result is null)
+                return NotFound($"Game session {request.SessionId} not found.");
 
-        return Ok(result);
+            return Ok(result);
+        }
+        catch (RateLimitException ex)
+        {
+            return StatusCode(429, ex.Message);
+        }
     }
 }

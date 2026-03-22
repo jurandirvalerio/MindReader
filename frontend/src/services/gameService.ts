@@ -4,8 +4,11 @@ const API_BASE = '/api/game';
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
-    const errorText = await response.text().catch(() => 'Unknown error');
-    throw new Error(`API error ${response.status}: ${errorText}`);
+    const errorText = await response.text().catch(() => '');
+    if (response.status === 429) {
+      throw new Error(errorText || 'The Oracle is being consulted too frequently. Please wait a moment and try again.');
+    }
+    throw new Error(errorText || `Unexpected error (${response.status}). Please try again.`);
   }
   return response.json() as Promise<T>;
 }

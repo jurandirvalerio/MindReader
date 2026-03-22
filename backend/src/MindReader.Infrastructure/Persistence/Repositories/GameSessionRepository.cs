@@ -86,6 +86,7 @@ public class GameSessionRepository : IGameSessionRepository
             Enum.Parse<GameStatus>(entity.Status),
             entity.CreatedAt,
             entity.Questions.OrderBy(q => q.Order).Select(q => new QuestionAnswer(
+                q.Id,
                 q.SessionId,
                 q.Question,
                 Enum.Parse<AnswerType>(q.Answer),
