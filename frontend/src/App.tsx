@@ -1,8 +1,11 @@
+import { LanguageProvider, useTranslation } from './i18n/LanguageContext';
+import { LanguageToggle } from './components/LanguageToggle';
 import { GamePage } from './pages/GamePage';
 import { HomePage } from './pages/HomePage';
 import { useGame } from './hooks/useGame';
 
-export default function App() {
+function GameRoot() {
+  const { language } = useTranslation();
   const {
     sessionId,
     currentQuestion,
@@ -18,16 +21,10 @@ export default function App() {
     submitAnswer,
     confirmGuess,
     restart,
-  } = useGame();
+  } = useGame(language);
 
   if (gameState === 'idle') {
-    return (
-      <HomePage
-        onStart={startGame}
-        isLoading={isLoading}
-        error={error}
-      />
-    );
+    return <HomePage onStart={startGame} isLoading={isLoading} error={error} />;
   }
 
   return (
@@ -46,5 +43,14 @@ export default function App() {
       onConfirmGuess={confirmGuess}
       onRestart={restart}
     />
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <LanguageToggle />
+      <GameRoot />
+    </LanguageProvider>
   );
 }

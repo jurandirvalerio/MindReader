@@ -23,7 +23,7 @@ const ANSWER_MAP: Record<AnswerOption, string> = {
   ProbablyNot: 'ProbablyNot',
 };
 
-export function useGame() {
+export function useGame(language: string) {
   const [state, setState] = useState<GameData>(initialState);
 
   const setLoading = (isLoading: boolean) =>
@@ -35,7 +35,7 @@ export function useGame() {
   const handleStartGame = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await startGame();
+      const response = await startGame(language);
       setState({
         ...initialState,
         sessionId: response.sessionId,
@@ -47,7 +47,7 @@ export function useGame() {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to start game');
     }
-  }, []);
+  }, [language]);
 
   const handleSubmitAnswer = useCallback(
     async (answer: AnswerOption) => {
@@ -55,7 +55,12 @@ export function useGame() {
 
       setLoading(true);
       try {
-        const response = await answerQuestion(state.sessionId, ANSWER_MAP[answer], state.currentQuestion);
+        const response = await answerQuestion(
+          state.sessionId,
+          ANSWER_MAP[answer],
+          state.currentQuestion,
+          language,
+        );
 
         let nextGameState: GameState = 'playing';
         if (response.isGuess) {
@@ -79,7 +84,7 @@ export function useGame() {
         setError(err instanceof Error ? err.message : 'Failed to submit answer');
       }
     },
-    [state.sessionId, state.isLoading, state.currentQuestion],
+    [state.sessionId, state.isLoading, state.currentQuestion, language],
   );
 
   const handleGuessResult = useCallback((correct: boolean) => {

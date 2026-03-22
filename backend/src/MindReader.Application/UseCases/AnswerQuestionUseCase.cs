@@ -12,13 +12,21 @@ public class AnswerQuestionUseCase
 
     private const int MaxQuestions = 20;
 
-    private const string SystemPrompt =
-        "You are playing a 20 questions game. The user is thinking of something (a person, animal, fictional character, object, place, food, etc.). " +
-        "Ask one yes/no question at a time to figure it out. After each answer, ask the next most strategic question. " +
-        "When you are confident (after at least 5 questions), make your guess by responding ONLY with a JSON object like: " +
-        "{\"isGuess\": true, \"guess\": \"<what you think it is>\", \"question\": \"Is it <guess>?\"}. " +
-        "For all other questions, respond ONLY with a JSON object like: {\"isGuess\": false, \"question\": \"<your question here>\"}. " +
-        "Never include any text outside the JSON.";
+    private static string BuildSystemPrompt(string language)
+    {
+        var langInstruction = language == "pt"
+            ? "You MUST ask all questions and make all guesses in Brazilian Portuguese (pt-BR)."
+            : "You MUST ask all questions and make all guesses in English.";
+
+        return
+            $"{langInstruction} " +
+            "You are playing a 20 questions game. The user is thinking of something (a person, animal, fictional character, object, place, food, etc.). " +
+            "Ask one yes/no question at a time to figure it out. After each answer, ask the next most strategic question. " +
+            "When you are confident (after at least 5 questions), make your guess by responding ONLY with a JSON object like: " +
+            "{\"isGuess\": true, \"guess\": \"<what you think it is>\", \"question\": \"<your guess question in the correct language>\"}. " +
+            "For all other questions, respond ONLY with a JSON object like: {\"isGuess\": false, \"question\": \"<your question here>\"}. " +
+            "Never include any text outside the JSON.";
+    }
 
     public AnswerQuestionUseCase(IGameSessionRepository repository, IClaudeAIService claudeService)
     {
@@ -42,7 +50,7 @@ public class AnswerQuestionUseCase
         var history = BuildHistory(session, request.CurrentQuestion);
         history.Add(new ConversationMessage("user", FormatAnswer(answerType)));
 
-        var claudeResponse = await _claudeService.AskAsync(SystemPrompt, history);
+        var claudeResponse = await _claudeService.AskAsync(BuildSystemPrompt(request.Language), history);
         var parsed = ParseClaudeResponse(claudeResponse);
 
         var questionNumber = session.Questions.Count + 1;

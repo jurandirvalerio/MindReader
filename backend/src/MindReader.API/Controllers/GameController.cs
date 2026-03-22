@@ -18,9 +18,9 @@ public class GameController : ControllerBase
     }
 
     [HttpPost("start")]
-    public async Task<ActionResult<StartGameResponseDto>> StartGame()
+    public async Task<ActionResult<StartGameResponseDto>> StartGame([FromBody] StartGameRequestDto request)
     {
-        var result = await _startGameUseCase.ExecuteAsync();
+        var result = await _startGameUseCase.ExecuteAsync(request);
         return Ok(result);
     }
 

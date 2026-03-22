@@ -1,16 +1,19 @@
+import { useTranslation } from '../i18n/LanguageContext';
+
 interface ProgressBarProps {
   current: number;
   max: number;
 }
 
 export function ProgressBar({ current, max }: ProgressBarProps) {
+  const { t } = useTranslation();
   const percentage = Math.min((current / max) * 100, 100);
 
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-2">
         <span className="font-lato text-xs text-slate-500 uppercase tracking-widest">
-          Question Progress
+          {t.questionProgress}
         </span>
         <span className="font-cinzel text-sm font-semibold text-amber-400">
           {current} / {max}

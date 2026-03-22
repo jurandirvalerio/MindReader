@@ -1,3 +1,5 @@
+import { useTranslation } from '../i18n/LanguageContext';
+
 interface StartScreenProps {
   onStart: () => void;
   isLoading: boolean;
@@ -5,6 +7,8 @@ interface StartScreenProps {
 }
 
 export function StartScreen({ onStart, isLoading, error }: StartScreenProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
       {/* Starfield decoration */}
@@ -37,11 +41,10 @@ export function StartScreen({ onStart, isLoading, error }: StartScreenProps) {
         MindReader
       </h1>
       <p className="font-cinzel text-lg md:text-xl text-amber-200/70 mb-2 tracking-widest uppercase">
-        The Oracle Knows All
+        {t.tagline}
       </p>
       <p className="font-lato text-base text-slate-400 mb-10 max-w-md">
-        Think of anything — a person, animal, place, food, or fictional character.
-        The Oracle will read your mind in 20 questions or less.
+        {t.description}
       </p>
 
       {error && (
@@ -69,15 +72,15 @@ export function StartScreen({ onStart, isLoading, error }: StartScreenProps) {
         {isLoading ? (
           <span className="flex items-center gap-2">
             <span className="inline-block w-4 h-4 border-2 border-navy-950 border-t-transparent rounded-full animate-spin" />
-            Consulting the Oracle...
+            {t.consultingOracle}
           </span>
         ) : (
-          'Begin the Reading'
+          t.beginButton
         )}
       </button>
 
       <p className="mt-8 font-lato text-xs text-slate-600 tracking-widest uppercase">
-        Up to 20 questions · Powered by Claude AI
+        {t.footer}
       </p>
     </div>
   );

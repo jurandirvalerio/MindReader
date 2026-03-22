@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface QuestionDisplayProps {
   question: string;
@@ -6,6 +7,7 @@ interface QuestionDisplayProps {
 }
 
 export function QuestionDisplay({ question, questionNumber }: QuestionDisplayProps) {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
   const [displayedQuestion, setDisplayedQuestion] = useState(question);
 
@@ -22,7 +24,7 @@ export function QuestionDisplay({ question, questionNumber }: QuestionDisplayPro
     <div className="text-center mb-8">
       <div className="mb-3">
         <span className="font-cinzel text-xs font-semibold text-amber-600 uppercase tracking-widest">
-          Question {questionNumber} of 20
+          {t.questionOf(questionNumber, 20)}
         </span>
       </div>
       <div

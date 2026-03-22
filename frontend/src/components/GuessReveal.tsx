@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface GuessRevealProps {
   guess: string;
@@ -8,6 +9,7 @@ interface GuessRevealProps {
 }
 
 export function GuessReveal({ guess, onCorrect, onWrong, isLoading }: GuessRevealProps) {
+  const { t } = useTranslation();
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export function GuessReveal({ guess, onCorrect, onWrong, isLoading }: GuessRevea
           ${revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
         `}
       >
-        The Oracle declares...
+        {t.oracleDeclares}
       </p>
 
       <h2
@@ -60,7 +62,7 @@ export function GuessReveal({ guess, onCorrect, onWrong, isLoading }: GuessRevea
           ${revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
         `}
       >
-        Was I right?
+        {t.wasIRight}
       </p>
 
       <div
@@ -83,7 +85,7 @@ export function GuessReveal({ guess, onCorrect, onWrong, isLoading }: GuessRevea
             focus:outline-none focus:ring-2 focus:ring-emerald-400
           "
         >
-          Yes!
+          {t.guessYes}
         </button>
         <button
           onClick={onWrong}
@@ -98,7 +100,7 @@ export function GuessReveal({ guess, onCorrect, onWrong, isLoading }: GuessRevea
             focus:outline-none focus:ring-2 focus:ring-red-400
           "
         >
-          No
+          {t.guessNo}
         </button>
       </div>
     </div>

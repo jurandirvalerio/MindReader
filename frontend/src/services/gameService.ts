@@ -10,10 +10,11 @@ async function handleResponse<T>(response: Response): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export async function startGame(): Promise<StartGameResponse> {
+export async function startGame(language: string): Promise<StartGameResponse> {
   const response = await fetch(`${API_BASE}/start`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ language }),
   });
   return handleResponse<StartGameResponse>(response);
 }
@@ -22,11 +23,12 @@ export async function answerQuestion(
   sessionId: string,
   answer: string,
   currentQuestion: string,
+  language: string,
 ): Promise<AnswerQuestionResponse> {
   const response = await fetch(`${API_BASE}/answer`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sessionId, answer, currentQuestion }),
+    body: JSON.stringify({ sessionId, answer, currentQuestion, language }),
   });
   return handleResponse<AnswerQuestionResponse>(response);
 }

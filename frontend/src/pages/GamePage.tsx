@@ -3,6 +3,7 @@ import { GameCard } from '../components/GameCard';
 import { GuessReveal } from '../components/GuessReveal';
 import { ProgressBar } from '../components/ProgressBar';
 import { QuestionDisplay } from '../components/QuestionDisplay';
+import { useTranslation } from '../i18n/LanguageContext';
 import type { AnswerOption } from '../types/game.types';
 
 interface GamePageProps {
@@ -35,6 +36,8 @@ export function GamePage({
   onConfirmGuess,
   onRestart,
 }: GamePageProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
       {/* Header */}
@@ -43,7 +46,7 @@ export function GamePage({
           MindReader
         </h1>
         <p className="font-lato text-xs text-slate-500 uppercase tracking-widest mt-1">
-          The Oracle Knows All
+          {t.oracleKnowsAll}
         </p>
       </div>
 
@@ -61,22 +64,18 @@ export function GamePage({
               <>
                 <div className="text-6xl mb-4">🔮</div>
                 <h2 className="font-cinzel text-2xl font-bold text-amber-400 mb-2 text-shadow-gold">
-                  The Oracle Prevails!
+                  {t.oraclePrevails}
                 </h2>
-                <p className="font-lato text-slate-300 mb-8">
-                  Your mind has been read. The Oracle sees all.
-                </p>
+                <p className="font-lato text-slate-300 mb-8">{t.mindRead}</p>
               </>
             ) : (
               <>
                 <div className="text-6xl mb-4">🌑</div>
                 <h2 className="font-cinzel text-2xl font-bold text-slate-300 mb-2">
-                  The Oracle is Stumped
+                  {t.oracleStumped}
                 </h2>
                 <p className="font-lato text-slate-400 mb-8">
-                  {isGuess
-                    ? 'Your mind proved too mysterious this time.'
-                    : 'After 20 questions, the Oracle admits defeat.'}
+                  {isGuess ? t.tooMysterious : t.admitsDefeat}
                 </p>
               </>
             )}
@@ -92,7 +91,7 @@ export function GamePage({
                 focus:outline-none focus:ring-2 focus:ring-amber-400
               "
             >
-              Play Again
+              {t.playAgain}
             </button>
           </div>
         ) : (
@@ -119,8 +118,7 @@ export function GamePage({
 
       {gameState === 'playing' && (
         <p className="mt-6 font-lato text-xs text-slate-600 text-center max-w-xs">
-          Think of your answer, then choose the option that best describes it.
-          The Oracle will deduce what you're thinking.
+          {t.hint}
         </p>
       )}
     </div>

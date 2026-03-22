@@ -3,5 +3,6 @@ namespace MindReader.Application.DTOs;
 public record AnswerQuestionRequestDto(
     Guid SessionId,
     string Answer,
-    string CurrentQuestion
+    string CurrentQuestion,
+    string Language
 );
