@@ -9,7 +9,7 @@ public class ClaudeAIService : IClaudeAIService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
-    private const string Model = "claude-sonnet-4-20250514";
+    private const string Model = "claude-haiku-4-5-20251001";
     private const string ApiUrl = "https://api.anthropic.com/v1/messages";
 
     private static readonly int[] RetryDelaysMs = [1000, 3000, 8000]; // 3 attempts
@@ -36,7 +36,7 @@ public class ClaudeAIService : IClaudeAIService
             var requestBody = new
             {
                 model = Model,
-                max_tokens = 1024,
+                max_tokens = 300,
                 system = systemPrompt,
                 tools = Tools,
                 messages
@@ -61,6 +61,42 @@ public class ClaudeAIService : IClaudeAIService
 
             return ExtractTextContent(contentArray);
         }
+    }
+
+    private static List<object> BuildAssistantContent(JsonElement contentArray)
+    {
+        var blocks = new List<object>();
+        foreach (var block in contentArray.EnumerateArray())
+        {
+            var type = block.GetProperty("type").GetString();
+            if (type == "text")
+                blocks.Add(new { type = "text", text = block.GetProperty("text").GetString() ?? "" });
+            else if (type == "tool_use")
+                blocks.Add(new
+                {
+                    type = "tool_use",
+                    id = block.GetProperty("id").GetString() ?? "",
+                    name = block.GetProperty("name").GetString() ?? "",
+                    input = JsonSerializer.Deserialize<object>(block.GetProperty("input").GetRawText())!
+                });
+        }
+        return blocks;
+    }
+
+    private static List<object> BuildToolResults(JsonElement contentArray)
+    {
+        var results = new List<object>();
+        foreach (var block in contentArray.EnumerateArray())
+        {
+            if (block.GetProperty("type").GetString() == "tool_use")
+                results.Add(new
+                {
+                    type = "tool_result",
+                    tool_use_id = block.GetProperty("id").GetString() ?? "",
+                    content = ""
+                });
+        }
+        return results;
     }
 
     private async Task<string> CallApiAsync(object requestBody)
@@ -100,42 +136,6 @@ public class ClaudeAIService : IClaudeAIService
         }
 
         throw new RateLimitException("The Claude API rate limit was reached. Please wait a moment and try again.");
-    }
-
-    private static List<object> BuildAssistantContent(JsonElement contentArray)
-    {
-        var blocks = new List<object>();
-        foreach (var block in contentArray.EnumerateArray())
-        {
-            var type = block.GetProperty("type").GetString();
-            if (type == "text")
-                blocks.Add(new { type = "text", text = block.GetProperty("text").GetString() ?? "" });
-            else if (type == "tool_use")
-                blocks.Add(new
-                {
-                    type = "tool_use",
-                    id = block.GetProperty("id").GetString() ?? "",
-                    name = block.GetProperty("name").GetString() ?? "",
-                    input = JsonSerializer.Deserialize<object>(block.GetProperty("input").GetRawText())!
-                });
-        }
-        return blocks;
-    }
-
-    private static List<object> BuildToolResults(JsonElement contentArray)
-    {
-        var results = new List<object>();
-        foreach (var block in contentArray.EnumerateArray())
-        {
-            if (block.GetProperty("type").GetString() == "tool_use")
-                results.Add(new
-                {
-                    type = "tool_result",
-                    tool_use_id = block.GetProperty("id").GetString() ?? "",
-                    content = ""
-                });
-        }
-        return results;
     }
 
     private static string ExtractTextContent(JsonElement contentArray)

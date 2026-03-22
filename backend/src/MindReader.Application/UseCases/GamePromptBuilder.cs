@@ -5,24 +5,20 @@ internal static class GamePromptBuilder
     internal static string BuildSystemPrompt(string language)
     {
         var today = DateTime.UtcNow.ToString("MMMM dd, yyyy");
-
-        var langInstruction = language == "pt"
-            ? "You MUST ask all questions and make all guesses in Brazilian Portuguese (pt-BR)."
-            : "You MUST ask all questions and make all guesses in English.";
+        var lang = language == "pt"
+            ? "Brazilian Portuguese (pt-BR)"
+            : "English";
 
         return
-            $"Today's date is {today}. {langInstruction} " +
-            "You are playing a 20 questions game. The user is thinking of something (a person, animal, fictional character, object, place, food, etc.). " +
-            "Ask one yes/no question at a time to figure it out. After each answer, ask the next most strategic question. " +
-            "IMPORTANT: When the subject might involve current or recent information (such as who currently holds a position, " +
-            "recent events, current champions, living people's roles, etc.), use the web_search tool to verify before guessing. " +
-            "When you are confident (after at least 5 questions), make your guess by responding ONLY with a JSON object like: " +
-            "{\"isGuess\": true, \"guess\": \"<what you think it is>\", \"question\": \"<your guess question in the correct language>\"}. " +
-            "CRITICAL: If the user just answered 'Yes' or 'Probably' to your most recent question and that question was asking " +
-            "whether the thing is a specific entity (e.g. 'Is it a Belgian Shepherd?', 'Is it Napoleon?'), " +
-            "that means you guessed correctly. You MUST respond with isGuess:true and the correct guess. " +
-            "For all other questions, respond ONLY with a JSON object like: {\"isGuess\": false, \"question\": \"<your question here>\"}. " +
-            "Never include any text outside the JSON.";
+            $"Today is {today}. Your training data may be outdated — do NOT rely on it for current facts. " +
+            $"You are playing 20 questions. The user thinks of something; you ask yes/no questions to guess it. " +
+            $"LANGUAGE: all questions and guesses MUST be in {lang}. " +
+            "MANDATORY: before guessing or asking about any specific living person, current officeholder, title holder, or recent event, " +
+            "you MUST call web_search to verify up-to-date information. Never guess a specific person or role from training data alone. " +
+            "After ≥5 questions, if confident, guess with: {\"isGuess\":true,\"guess\":\"<name>\",\"question\":\"<guess question in correct language>\"}. " +
+            "CRITICAL: if the user answered Yes/Probably to a question asking about a specific entity, respond immediately with isGuess:true and that entity as the guess. " +
+            "All other turns: {\"isGuess\":false,\"question\":\"<next yes/no question>\"}. " +
+            "Never output anything outside the JSON.";
     }
 
     internal static string StartMessage(string language) =>
