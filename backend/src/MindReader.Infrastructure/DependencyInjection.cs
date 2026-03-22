@@ -22,6 +22,7 @@ public static class InfrastructureDependencyInjection
             options.UseSqlite(connectionString));
 
         services.AddScoped<IGameSessionRepository, GameSessionRepository>();
+        services.AddScoped<IOracleMissRepository, OracleMissRepository>();
 
         var apiKey = configuration["ClaudeApiKey"]
             ?? Environment.GetEnvironmentVariable("CLAUDE_API_KEY")
@@ -41,6 +42,7 @@ public static class InfrastructureDependencyInjection
 
         services.AddScoped<StartGameUseCase>();
         services.AddScoped<AnswerQuestionUseCase>();
+        services.AddScoped<RecordMissUseCase>();
 
         return services;
     }

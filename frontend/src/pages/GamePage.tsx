@@ -23,6 +23,7 @@ interface GamePageProps {
 }
 
 export function GamePage({
+  sessionId,
   currentQuestion,
   questionNumber,
   isGuess,
@@ -53,6 +54,7 @@ export function GamePage({
       <GameCard>
         {gameState === 'guessing' && guessSubject ? (
           <GuessReveal
+            sessionId={sessionId}
             guess={guessSubject}
             onCorrect={() => onConfirmGuess(true)}
             onWrong={() => onConfirmGuess(false)}

@@ -9,9 +9,18 @@ public class MindReaderDbContext : DbContext
 
     public DbSet<GameSessionEntity> GameSessions => Set<GameSessionEntity>();
     public DbSet<QuestionAnswerEntity> QuestionAnswers => Set<QuestionAnswerEntity>();
+    public DbSet<OracleMissEntity> OracleMisses => Set<OracleMissEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<OracleMissEntity>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.OracleGuess).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.CorrectAnswer).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.CreatedAt).IsRequired();
+        });
+
         modelBuilder.Entity<GameSessionEntity>(entity =>
         {
             entity.HasKey(e => e.Id);

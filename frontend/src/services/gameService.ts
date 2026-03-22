@@ -22,6 +22,18 @@ export async function startGame(language: string): Promise<StartGameResponse> {
   return handleResponse<StartGameResponse>(response);
 }
 
+export async function recordMiss(
+  sessionId: string,
+  oracleGuess: string,
+  correctAnswer: string,
+): Promise<void> {
+  await fetch(`${API_BASE}/miss`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ sessionId, oracleGuess, correctAnswer }),
+  });
+}
+
 export async function answerQuestion(
   sessionId: string,
   answer: string,

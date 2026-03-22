@@ -25,6 +25,7 @@ export default {
         },
       },
       animation: {
+        'fade-in': 'fadeIn 0.4s ease-out forwards',
         'fade-up': 'fadeUp 0.6s ease-out forwards',
         'glow-pulse': 'glowPulse 2s ease-in-out infinite',
         'orb-float': 'orbFloat 3s ease-in-out infinite',
@@ -32,6 +33,10 @@ export default {
         'progress-fill': 'progressFill 0.5s ease-out forwards',
       },
       keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
         fadeUp: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },

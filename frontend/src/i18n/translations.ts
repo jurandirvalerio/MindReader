@@ -26,6 +26,10 @@ export interface Translations {
   admitsDefeat: string;
   playAgain: string;
   hint: string;
+  correctAnswerPrompt: string;
+  correctAnswerPlaceholder: string;
+  submitCorrection: string;
+  skipCorrection: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -56,6 +60,10 @@ export const translations: Record<Language, Translations> = {
     admitsDefeat: 'After 20 questions, the Oracle admits defeat.',
     playAgain: 'Play Again',
     hint: "Think of your answer, then choose the option that best describes it. The Oracle will deduce what you're thinking.",
+    correctAnswerPrompt: 'What were you thinking of?',
+    correctAnswerPlaceholder: 'Enter the correct answer...',
+    submitCorrection: 'Submit',
+    skipCorrection: 'Skip',
   },
 
   pt: {
@@ -85,5 +93,9 @@ export const translations: Record<Language, Translations> = {
     admitsDefeat: 'Após 20 perguntas, o Oráculo admite a derrota.',
     playAgain: 'Jogar Novamente',
     hint: 'Pense na sua resposta e escolha a opção que melhor a descreve. O Oráculo deduzirá o que você está pensando.',
+    correctAnswerPrompt: 'O que você estava pensando?',
+    correctAnswerPlaceholder: 'Digite a resposta correta...',
+    submitCorrection: 'Enviar',
+    skipCorrection: 'Pular',
   },
 };
