@@ -12,22 +12,6 @@ public class AnswerQuestionUseCase
 
     private const int MaxQuestions = 20;
 
-    private static string BuildSystemPrompt(string language)
-    {
-        var langInstruction = language == "pt"
-            ? "You MUST ask all questions and make all guesses in Brazilian Portuguese (pt-BR)."
-            : "You MUST ask all questions and make all guesses in English.";
-
-        return
-            $"{langInstruction} " +
-            "You are playing a 20 questions game. The user is thinking of something (a person, animal, fictional character, object, place, food, etc.). " +
-            "Ask one yes/no question at a time to figure it out. After each answer, ask the next most strategic question. " +
-            "When you are confident (after at least 5 questions), make your guess by responding ONLY with a JSON object like: " +
-            "{\"isGuess\": true, \"guess\": \"<what you think it is>\", \"question\": \"<your guess question in the correct language>\"}. " +
-            "For all other questions, respond ONLY with a JSON object like: {\"isGuess\": false, \"question\": \"<your question here>\"}. " +
-            "Never include any text outside the JSON.";
-    }
-
     public AnswerQuestionUseCase(IGameSessionRepository repository, IClaudeAIService claudeService)
     {
         _repository = repository;
@@ -47,27 +31,32 @@ public class AnswerQuestionUseCase
         }
 
         var answerType = ParseAnswer(request.Answer);
-        var history = BuildHistory(session, request.CurrentQuestion);
-        history.Add(new ConversationMessage("user", FormatAnswer(answerType)));
 
+        // Save (currentQuestion, userAnswer) BEFORE calling Claude.
+        // This keeps each pair correctly associated and makes history reconstruction trivial.
+        session.AddQuestion(request.CurrentQuestion, answerType);
+
+        // If we've now answered MaxQuestions, give up without burning another API call.
+        if (session.Questions.Count >= MaxQuestions)
+        {
+            session.MarkAsGaveUp();
+            await _repository.UpdateAsync(session);
+            return new AnswerQuestionResponseDto(
+                session.SessionId, string.Empty, false, null,
+                session.Questions.Count, true);
+        }
+
+        var history = BuildHistory(session, request.Language);
         var claudeResponse = await _claudeService.AskAsync(BuildSystemPrompt(request.Language), history);
         var parsed = ParseClaudeResponse(claudeResponse);
 
-        var questionNumber = session.Questions.Count + 1;
-
-        // Add the Q&A pair to the session
-        session.AddQuestion(parsed.Question, answerType);
+        // The next question number is the count of answered questions + 1.
+        var nextQuestionNumber = session.Questions.Count + 1;
 
         bool isGameOver = false;
-
         if (parsed.IsGuess)
         {
             session.MarkAsGuessed();
-            isGameOver = true;
-        }
-        else if (questionNumber >= MaxQuestions)
-        {
-            session.MarkAsGaveUp();
             isGameOver = true;
         }
 
@@ -78,16 +67,18 @@ public class AnswerQuestionUseCase
             parsed.Question,
             parsed.IsGuess,
             parsed.GuessSubject,
-            questionNumber,
+            nextQuestionNumber,
             isGameOver);
     }
 
-    private static List<ConversationMessage> BuildHistory(Domain.Entities.GameSession session, string currentQuestion)
+    // History is built entirely from saved Q&A pairs — no need to pass currentQuestion separately.
+    private static List<ConversationMessage> BuildHistory(Domain.Entities.GameSession session, string language)
     {
-        var history = new List<ConversationMessage>
-        {
-            new("user", "Let's play! I'm thinking of something. Start asking questions.")
-        };
+        var startMessage = language == "pt"
+            ? "Vamos jogar! Estou pensando em algo. Comece a fazer perguntas."
+            : "Let's play! I'm thinking of something. Start asking questions.";
+
+        var history = new List<ConversationMessage> { new("user", startMessage) };
 
         foreach (var qa in session.Questions.OrderBy(q => q.Order))
         {
@@ -95,10 +86,23 @@ public class AnswerQuestionUseCase
             history.Add(new ConversationMessage("user", FormatAnswer(qa.Answer)));
         }
 
-        // The question currently on screen that the user is answering
-        history.Add(new ConversationMessage("assistant", $"{{\"isGuess\": false, \"question\": \"{EscapeJson(currentQuestion)}\"}}"));
-
         return history;
+    }
+
+    private static string BuildSystemPrompt(string language)
+    {
+        var langInstruction = language == "pt"
+            ? "You MUST ask all questions and make all guesses in Brazilian Portuguese (pt-BR)."
+            : "You MUST ask all questions and make all guesses in English.";
+
+        return
+            $"{langInstruction} " +
+            "You are playing a 20 questions game. The user is thinking of something (a person, animal, fictional character, object, place, food, etc.). " +
+            "Ask one yes/no question at a time to figure it out. After each answer, ask the next most strategic question. " +
+            "When you are confident (after at least 5 questions), make your guess by responding ONLY with a JSON object like: " +
+            "{\"isGuess\": true, \"guess\": \"<what you think it is>\", \"question\": \"<your guess question in the correct language>\"}. " +
+            "For all other questions, respond ONLY with a JSON object like: {\"isGuess\": false, \"question\": \"<your question here>\"}. " +
+            "Never include any text outside the JSON.";
     }
 
     private static string EscapeJson(string value) =>
