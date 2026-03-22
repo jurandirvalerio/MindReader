@@ -84,6 +84,22 @@ dotnet ef migrations add <NomeMigration> \
 ```
 As migrations são aplicadas automaticamente no startup via `MigrateAsync()`.
 
+## CI/CD — SonarCloud
+
+O workflow `.github/workflows/sonarcloud.yml` executa a cada push ou PR na `main`:
+1. Roda os testes do frontend com cobertura (lcov).
+2. Inicia o SonarScanner for .NET.
+3. Builda o backend e roda os testes com cobertura (OpenCover).
+4. Envia os resultados para o SonarCloud.
+
+**Secrets necessários no GitHub** (`Settings → Secrets → Actions`):
+
+| Secret | Onde obter |
+|---|---|
+| `SONAR_TOKEN` | SonarCloud → My Account → Security → Generate Token |
+| `SONAR_PROJECT_KEY` | SonarCloud → projeto → Information |
+| `SONAR_ORG_KEY` | SonarCloud → Organization → Settings |
+
 ## Variável de ambiente obrigatória
 
 ```bash
