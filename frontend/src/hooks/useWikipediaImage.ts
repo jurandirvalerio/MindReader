@@ -16,9 +16,13 @@ export function useWikipediaImage(subject: string | null): WikipediaImageResult 
     setIsLoading(true);
     setImageUrl(null);
 
+    // Strip possessives so "seu cachorro" searches "cachorro", "my dog" searches "dog", etc.
+    const possessivePattern = /^(meu|minha|meus|minhas|seu|sua|seus|suas|my|your|his|her|our|their)\s+/i;
+    const searchTerm = subject.trim().replace(possessivePattern, '');
+
     const searchUrl =
       `https://en.wikipedia.org/w/api.php?action=query&list=search` +
-      `&srsearch=${encodeURIComponent(subject)}&format=json&origin=*&srlimit=1`;
+      `&srsearch=${encodeURIComponent(searchTerm)}&format=json&origin=*&srlimit=1`;
 
     fetch(searchUrl)
       .then((res) => (res.ok ? res.json() : null))

@@ -9,7 +9,7 @@ public class ClaudeAIService : IClaudeAIService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
-    private const string Model = "claude-haiku-4-5-20251001";
+    private const string Model = "claude-sonnet-4-6";
     private const string ApiUrl = "https://api.anthropic.com/v1/messages";
 
     private static readonly int[] RetryDelaysMs = [1000, 3000, 8000]; // 3 attempts
@@ -36,7 +36,7 @@ public class ClaudeAIService : IClaudeAIService
             var requestBody = new
             {
                 model = Model,
-                max_tokens = 300,
+                max_tokens = 1024,
                 system = systemPrompt,
                 tools = Tools,
                 messages

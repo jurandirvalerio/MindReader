@@ -44,6 +44,15 @@ public class AnswerQuestionUseCase
 
         var nextQuestionNumber = session.Questions.Count + 1;
 
+        // If the 20th answer was processed and Claude still hasn't guessed, force a best guess.
+        if (!parsed.IsGuess && session.Questions.Count >= MaxQuestions)
+        {
+            var forcedHistory = BuildHistory(session, request.Language);
+            var forcedResponse = await _claudeService.AskAsync(
+                GamePromptBuilder.BuildForcedGuessPrompt(request.Language), forcedHistory);
+            parsed = ParseClaudeResponse(forcedResponse);
+        }
+
         bool isGameOver = false;
         if (parsed.IsGuess)
         {
@@ -52,7 +61,6 @@ public class AnswerQuestionUseCase
         }
         else if (session.Questions.Count >= MaxQuestions)
         {
-            // All questions used and Claude still hasn't confirmed a correct guess.
             session.MarkAsGaveUp();
             isGameOver = true;
         }
