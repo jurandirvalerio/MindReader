@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from '../i18n/LanguageContext';
+import { useWikipediaImage } from '../hooks/useWikipediaImage';
 
 interface GuessRevealProps {
   guess: string;
@@ -11,6 +12,7 @@ interface GuessRevealProps {
 export function GuessReveal({ guess, onCorrect, onWrong, isLoading }: GuessRevealProps) {
   const { t } = useTranslation();
   const [revealed, setRevealed] = useState(false);
+  const { imageUrl, isLoading: imageLoading } = useWikipediaImage(guess);
 
   useEffect(() => {
     const timer = setTimeout(() => setRevealed(true), 400);
@@ -19,20 +21,46 @@ export function GuessReveal({ guess, onCorrect, onWrong, isLoading }: GuessRevea
 
   return (
     <div className="flex flex-col items-center justify-center text-center px-4">
-      {/* Dramatic orb */}
+      {/* Image or orb */}
       <div className="relative mb-8">
-        <div
-          className={`
-            w-48 h-48 rounded-full
-            bg-gradient-to-br from-amber-300 via-yellow-500 to-amber-600
-            flex items-center justify-center
-            transition-all duration-1000 ease-out
-            ${revealed ? 'animate-orb-float glow-gold-intense opacity-100 scale-100' : 'opacity-0 scale-50'}
-          `}
-        >
-          <div className="w-36 h-36 rounded-full bg-gradient-to-br from-amber-100 to-amber-400 opacity-60" />
-        </div>
-        <div className="absolute inset-0 rounded-full bg-amber-400 opacity-20 blur-3xl animate-glow-pulse" />
+        {imageLoading ? (
+          /* Skeleton while image loads */
+          <div className="w-48 h-48 rounded-full bg-navy-800 border-2 border-amber-800/40 animate-pulse" />
+        ) : imageUrl ? (
+          /* Wikipedia photo */
+          <div
+            className={`
+              relative w-48 h-48 rounded-full overflow-hidden
+              border-4 border-amber-400
+              transition-all duration-1000 ease-out
+              ${revealed ? 'opacity-100 scale-100 animate-orb-float glow-gold-intense' : 'opacity-0 scale-50'}
+            `}
+          >
+            <img
+              src={imageUrl}
+              alt={guess}
+              className="w-full h-full object-cover"
+            />
+            {/* Subtle gold overlay rim */}
+            <div className="absolute inset-0 rounded-full ring-4 ring-amber-400/30" />
+          </div>
+        ) : (
+          /* Fallback glowing orb when no image is found */
+          <div
+            className={`
+              w-48 h-48 rounded-full
+              bg-gradient-to-br from-amber-300 via-yellow-500 to-amber-600
+              flex items-center justify-center
+              transition-all duration-1000 ease-out
+              ${revealed ? 'animate-orb-float glow-gold-intense opacity-100 scale-100' : 'opacity-0 scale-50'}
+            `}
+          >
+            <div className="w-36 h-36 rounded-full bg-gradient-to-br from-amber-100 to-amber-400 opacity-60" />
+          </div>
+        )}
+
+        {/* Ambient glow behind */}
+        <div className="absolute inset-0 rounded-full bg-amber-400 opacity-20 blur-3xl animate-glow-pulse pointer-events-none" />
       </div>
 
       <p
