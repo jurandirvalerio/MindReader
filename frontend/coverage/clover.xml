@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1774187168064" clover="3.2.0">
+  <project timestamp="1774187168064" name="All files">
+    <metrics statements="103" coveredstatements="101" conditionals="66" coveredconditionals="47" methods="41" coveredmethods="37" elements="210" coveredelements="185" complexity="0" loc="103" ncloc="103" packages="5" files="9" classes="9"/>
+    <package name="components">
+      <metrics statements="50" coveredstatements="50" conditionals="36" coveredconditionals="27" methods="20" coveredmethods="18"/>
+      <file name="AnswerButtons.tsx" path="/Users/jurandirjunior/Github/MindReader/frontend/src/components/AnswerButtons.tsx">
+        <metrics statements="13" coveredstatements="13" conditionals="8" coveredconditionals="8" methods="4" coveredmethods="4"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="21" count="14" type="stmt"/>
+        <line num="22" count="14" type="stmt"/>
+        <line num="24" count="14" type="stmt"/>
+        <line num="32" count="14" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="38" count="14" type="cond" truecount="4" falsecount="0"/>
+        <line num="39" count="3" type="stmt"/>
+        <line num="42" count="14" type="stmt"/>
+        <line num="45" count="70" type="stmt"/>
+        <line num="47" count="4" type="stmt"/>
+      </file>
+      <file name="GuessReveal.tsx" path="/Users/jurandirjunior/Github/MindReader/frontend/src/components/GuessReveal.tsx">
+        <metrics statements="24" coveredstatements="24" conditionals="26" coveredconditionals="17" methods="11" coveredmethods="9"/>
+        <line num="15" count="31" type="stmt"/>
+        <line num="16" count="31" type="stmt"/>
+        <line num="17" count="31" type="stmt"/>
+        <line num="18" count="31" type="stmt"/>
+        <line num="19" count="31" type="stmt"/>
+        <line num="20" count="31" type="stmt"/>
+        <line num="21" count="31" type="stmt"/>
+        <line num="23" count="31" type="stmt"/>
+        <line num="24" count="11" type="stmt"/>
+        <line num="25" count="11" type="stmt"/>
+        <line num="28" count="31" type="stmt"/>
+        <line num="29" count="18" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="31" type="stmt"/>
+        <line num="33" count="7" type="stmt"/>
+        <line num="36" count="31" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="43" count="31" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="47" count="31" type="stmt"/>
+        <line num="169" count="9" type="stmt"/>
+        <line num="171" count="10" type="cond" truecount="4" falsecount="0"/>
+      </file>
+      <file name="ProgressBar.tsx" path="/Users/jurandirjunior/Github/MindReader/frontend/src/components/ProgressBar.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="9" count="6" type="stmt"/>
+        <line num="10" count="6" type="stmt"/>
+        <line num="12" count="6" type="stmt"/>
+      </file>
+      <file name="QuestionDisplay.tsx" path="/Users/jurandirjunior/Github/MindReader/frontend/src/components/QuestionDisplay.tsx">
+        <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="10" count="8" type="stmt"/>
+        <line num="11" count="8" type="stmt"/>
+        <line num="12" count="8" type="stmt"/>
+        <line num="14" count="8" type="stmt"/>
+        <line num="15" count="6" type="stmt"/>
+        <line num="16" count="6" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="20" count="6" type="stmt"/>
+        <line num="23" count="8" type="stmt"/>
+      </file>
+    </package>
+    <package name="hooks">
+      <metrics statements="26" coveredstatements="26" conditionals="18" coveredconditionals="12" methods="9" coveredmethods="9"/>
+      <file name="useWikipediaImage.ts" path="/Users/jurandirjunior/Github/MindReader/frontend/src/hooks/useWikipediaImage.ts">
+        <metrics statements="26" coveredstatements="26" conditionals="18" coveredconditionals="12" methods="9" coveredmethods="9"/>
+        <line num="9" count="24" type="stmt"/>
+        <line num="10" count="24" type="stmt"/>
+        <line num="12" count="24" type="stmt"/>
+        <line num="13" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="8" type="stmt"/>
+        <line num="16" count="8" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
+        <line num="20" count="8" type="stmt"/>
+        <line num="21" count="8" type="stmt"/>
+        <line num="24" count="8" type="stmt"/>
+        <line num="27" count="8" type="stmt"/>
+        <line num="28" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="30" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="31" count="6" type="stmt"/>
+        <line num="32" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="5" type="stmt"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="36" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="39" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="40" count="6" type="stmt"/>
+        <line num="41" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="44" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="47" count="7" type="cond" truecount="1" falsecount="1"/>
+        <line num="50" count="8" type="stmt"/>
+        <line num="51" count="8" type="stmt"/>
+        <line num="55" count="24" type="stmt"/>
+      </file>
+    </package>
+    <package name="i18n">
+      <metrics statements="14" coveredstatements="12" conditionals="4" coveredconditionals="2" methods="6" coveredmethods="5"/>
+      <file name="LanguageContext.tsx" path="/Users/jurandirjunior/Github/MindReader/frontend/src/i18n/LanguageContext.tsx">
+        <metrics statements="11" coveredstatements="9" conditionals="4" coveredconditionals="2" methods="4" coveredmethods="3"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="15" count="29" type="stmt"/>
+        <line num="16" count="29" type="cond" truecount="1" falsecount="1"/>
+        <line num="20" count="31" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="27" count="31" type="stmt"/>
+        <line num="35" count="59" type="stmt"/>
+        <line num="36" count="59" type="cond" truecount="1" falsecount="1"/>
+        <line num="37" count="59" type="stmt"/>
+      </file>
+      <file name="translations.ts" path="/Users/jurandirjunior/Github/MindReader/frontend/src/i18n/translations.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="50" count="9" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="services">
+      <metrics statements="12" coveredstatements="12" conditionals="8" coveredconditionals="6" methods="5" coveredmethods="4"/>
+      <file name="gameService.ts" path="/Users/jurandirjunior/Github/MindReader/frontend/src/services/gameService.ts">
+        <metrics statements="12" coveredstatements="12" conditionals="8" coveredconditionals="6" methods="5" coveredmethods="4"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="6" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="11" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="test">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="renderWithLanguage.tsx" path="/Users/jurandirjunior/Github/MindReader/frontend/src/test/renderWithLanguage.tsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="6" count="28" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

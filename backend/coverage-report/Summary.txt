@@ -1,0 +1,51 @@
+Summary
+  Generated on: 22/03/2026 - 10:46:27
+  Coverage date: 22/03/2026 - 10:46:01
+  Parser: Cobertura
+  Assemblies: 3
+  Classes: 25
+  Files: 27
+  Line coverage: 25.8%
+  Covered lines: 206
+  Uncovered lines: 591
+  Coverable lines: 797
+  Total lines: 1193
+  Branch coverage: 50% (68 of 136)
+  Covered branches: 68
+  Total branches: 136
+  Method coverage: 50% (48 of 96)
+  Full method coverage: 46.8% (45 of 96)
+  Covered methods: 48
+  Fully covered methods: 45
+  Total methods: 96
+
+MindReader.Application                                                       96.5%
+  MindReader.Application.DTOs.AnswerQuestionRequestDto                        100%
+  MindReader.Application.DTOs.AnswerQuestionResponseDto                      87.5%
+  MindReader.Application.DTOs.RecordMissRequestDto                            100%
+  MindReader.Application.DTOs.StartGameRequestDto                             100%
+  MindReader.Application.DTOs.StartGameResponseDto                            100%
+  MindReader.Application.UseCases.AnswerQuestionUseCase                        94%
+  MindReader.Application.UseCases.GamePromptBuilder                           100%
+  MindReader.Application.UseCases.RecordMissUseCase                           100%
+  MindReader.Application.UseCases.StartGameUseCase                            100%
+
+MindReader.Domain                                                            72.2%
+  MindReader.Domain.Entities.GameSession                                     70.8%
+  MindReader.Domain.Entities.GameSessionFactory                                 0%
+  MindReader.Domain.Entities.QuestionAnswer                                    84%
+  MindReader.Domain.Exceptions.RateLimitException                               0%
+  MindReader.Domain.Interfaces.ConversationMessage                            100%
+
+MindReader.Infrastructure                                                       0%
+  MindReader.Infrastructure.InfrastructureDependencyInjection                   0%
+  MindReader.Infrastructure.Migrations.AddOracleMisses                          0%
+  MindReader.Infrastructure.Migrations.InitialCreate                            0%
+  MindReader.Infrastructure.Migrations.MindReaderDbContextModelSnapshot         0%
+  MindReader.Infrastructure.Persistence.Entities.GameSessionEntity              0%
+  MindReader.Infrastructure.Persistence.Entities.OracleMissEntity               0%
+  MindReader.Infrastructure.Persistence.Entities.QuestionAnswerEntity           0%
+  MindReader.Infrastructure.Persistence.MindReaderDbContext                     0%
+  MindReader.Infrastructure.Persistence.Repositories.GameSessionRepository      0%
+  MindReader.Infrastructure.Persistence.Repositories.OracleMissRepository       0%
+  MindReader.Infrastructure.Services.ClaudeAIService                            0%
